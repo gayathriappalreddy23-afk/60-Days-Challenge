@@ -1,0 +1,96 @@
+
+#create a class
+class Student:
+    def __init__(self,name,marks):
+        self.name=name
+        self.marks=marks
+    def display(self):
+        print(self.name,end=" ")
+        print(self.marks)
+res=Student("Indu",98)
+res2=Student("Siri",87)
+res3=Student("Hema",28)
+res4=Student("Sita",79)
+res.display()
+res2.display()
+res3.display()
+res4.display()
+print(res.name)
+
+#2
+
+class Employee:
+    def __init__(self,name,salary):
+        self.name=name
+        self.salary=salary
+    def display(self):
+        print(self.name)
+        print(self.salary)
+res=Employee("\n\nIndu",90000)
+res2=Employee("Siri",80000)
+res.display()
+res2.display()
+
+#3
+class Car:
+    def __init__(self,brand,color):
+        self.brand=brand
+        self.color=color
+res=Car("\n\nMarutiSuzuki","white")
+res2=Car("Honda","black")
+print("\n\n",res.brand,res.color)
+print(res2.brand,res2.color)
+
+#4
+class Book:
+    def __init__(self,title,author):
+        self.author =author
+        self.title =title
+    def result(self):
+        print(self.title,end=" ")
+        print(self.author)
+res= Book("Python ","Guido van Rossum")
+res2= Book("Java" ,"James Gosling")
+res3=Book("C","Dennis Ritchie")
+print("\n\n")
+res.result()
+res2.result()
+res3.result()
+
+#5
+class StudentDetails:
+    def __init__(self,name,roll_number,department,cgpa):
+        self.name = name
+        self.roll_number = roll_number
+        self.department = department
+        self.cgpa = cgpa
+    def display_details(self):
+        print("--- Student Details ---")
+        print(f"Name        : {self.name}")
+        print(f"Roll Number : {self.roll_number}")
+        print(f"Department  : {self.department}")
+        print(f"Current CGPA: {self.cgpa}")
+        print("-" * 23)
+    def update_cgpa(self, new_cgpa: float):
+        if 0.0 <= new_cgpa <= 10.0:
+            self.cgpa = new_cgpa
+            print(f"\n[System Success] CGPA updated successfully for {self.name}.\n")
+        else:
+            print(f"\n[System Error] Invalid CGPA value ({new_cgpa}). Must be between 0.0 and 10.0.\n")
+    def display_updated_details(self):
+        print("--- Updated Record Summary ---")
+        print(f"Student Name: {self.name}")
+        print(f"New CGPA    : {self.cgpa}")
+        print("-" * 30)
+
+if __name__ == "__main__":
+    res= StudentDetails("Hema",12,"CSE",9.0)
+    res.display_details()
+    res.update_cgpa(8.9)
+    res.display_updated_details()
+    res2= StudentDetails("Gita",5,"EEE",7.9)
+    res2.display_details()
+    res2.update_cgpa(2.9)
+    res2.display_updated_details()
+
+
