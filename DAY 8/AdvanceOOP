@@ -1,0 +1,152 @@
+class Student:
+    def __init__(self,name,marks):
+        self.name=name
+        self.marks=marks
+    def display(self):
+        print(self.name)
+        print(self.marks)
+res=Student("Indu",98)
+res.display()
+
+#Inheritance
+class Animal:
+    def sound(self):
+        print("Animals are makes a sounds.")
+class Dog(Animal):
+    def sound(self):
+        print("\n\nBark")
+d=Dog()
+d.sound()
+a=Animal()
+a.sound()
+
+#Multi Level Inheritance
+class A:
+    def display(self):
+        print("Parent Class")
+class B(A):
+    def display(self):
+        print("Child class of A and parent of C")
+class C(B):
+    def display(self):
+        print("\n\nChld class of B")
+res=C()
+res.display()
+res=B()
+res.display()
+res=A()
+res.display()
+
+#Multiple Inheritance
+class Father:
+    def skill(self):
+        print("Driving")
+class Mother:
+    def skill2(self):
+        print("Cooking")
+class Child(Father,Mother):
+    def display(self):
+        print("\n\nMultiple Inheritance")
+c=Child()
+c.display()
+c.skill()
+c.skill2()
+
+#Hieratichal Inheritance
+class parent:
+    def home(self):
+        print("who can take parent responsiblities")
+class Son(parent):
+    def display(self):
+        print("Big Son")
+class Daughter(parent):
+    def display(self):
+        print("\n\nDaughter")
+d=Daughter()
+d.display()
+d.home()
+s=Son()
+s.display()
+s.home()
+
+#polymorphism
+class Dog:
+    def sound(self):
+        print("\n\nBark")
+class Cat:
+    def sound(self):
+        print("Meow")
+animals=[Dog(),Cat()]
+for animal in animals:
+    animal.sound()
+
+#super
+class person:
+    def __init__(self,name):
+        self.name=name
+class student:
+    def __init__(self,name,roll):
+        super().__init__(name)
+        self.roll=roll
+        
+#Abstract Method
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+
+    @abstractmethod
+    def area(self):
+        pass
+
+class Circle(Shape):
+
+    def area(self):
+        return 3.14 * 5 * 5
+
+c = Circle()
+print("\n\n",c.area())
+
+#Practice
+from abc import ABC,abstractmethod
+class person:
+    def __init__(self,name,age):
+        self.name=name
+        self.age=age
+    def introduce(self):
+        return f"Hello, my name is {self.name} and I am {self.age} years old."
+class Employee(person,ABC):
+    def __init__(self,name,age,salary):
+        super().__init__(name,age)
+        self.__salary=salary
+    def calculate_salary(self):
+        pass
+    def get_salary(self):
+        return self.__salary
+    def introduce(self):
+        parent_intro=super().introduce()
+        return f"{parent_intro} I am a Employee."
+class Manager(Employee):
+    def __init__(self,name,age,salary,bonus):
+        super().__init__(name,age,salary)
+        self.bonus=bonus
+    def calculate_salary(self):
+        return self.get_salary()+self.bonus
+    def introduce(self):
+        parent_intro=super().introduce()
+        return f"{parent_intro} Specifically, I work as a Manager."
+if __name__ == "__main__":
+    # Requirement: Print MRO (Method Resolution Order)
+    print("--- Method Resolution Order (MRO) ---")
+    print([cls.__name__ for cls in Manager.__mro__])
+    print()
+
+    print("--- Object Instantiation & Method Outputs ---")
+    # Instantiating the Manager object
+    manager = Manager(name="Alice Smith", age=42, salary=80000, bonus=15000)
+
+    # Displaying overridden method output
+    print(manager.introduce())
+
+    # Displaying calculate_salary output
+    print(f"Total calculated salary: ${manager.calculate_salary():,}")
+    
