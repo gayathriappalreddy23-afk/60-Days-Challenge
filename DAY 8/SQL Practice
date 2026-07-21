@@ -1,0 +1,53 @@
+
+CREATE TABLE Students(
+  Names text Not Null,
+  Roll_Number Integer Primary Key,
+  Branch text Not null,
+  Marks Integer
+);
+
+insert into Students values ("Gayathri",1,"CSE",98),
+("Indu",2,"EEE",97),
+("Hema",3,"ECE",80),
+("Vani",4,"EEE",39),
+("Amrutha",5,"CSE",79),
+("Amulu",6,"CSM",45);
+
+select * from students;
+select Names from students;
+select * from Students order by marks;
+select * from students order by marks desc limit 3;
+select Names,Marks from students where marks>85;
+select Names,Branch from students where branch="EEE";
+select Names from Students order by Names;
+select Names,Marks from Students;
+select Names,Marks from Students where Marks between 80 and 90;
+select Names,Branch from Students where Branch="CSE" or Branch="ECE";
+select Names,Branch from Students where Branch!="CSE";
+select Names from Students where Names Like 'a%';
+select Names from Students where Names Like '%a';
+select * from Students where Branch="CSE" and marks>90;
+select * from Students where Branch="EEE" or Marks<80;
+SELECT * from Students where Marks<=88;
+SELECT Names,Branch from Students where Marks>80;
+
+select * from students order by Name desc Limit 2;
+select Names,Branch from Students;
+SELECT Distinct branch from students;
+select * from students where Branch="CSE";
+
+#Task2
+-- create
+CREATE TABLE EMPLOYEE (
+  empId INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  dept TEXT NOT NULL
+);
+
+-- insert
+INSERT INTO EMPLOYEE VALUES (0001, 'Clark', 'Sales');
+INSERT INTO EMPLOYEE VALUES (0002, 'Dave', 'Accounting');
+INSERT INTO EMPLOYEE VALUES (0003, 'Ava', 'Sales');
+
+-- fetch 
+SELECT * FROM E
