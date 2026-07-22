@@ -1,0 +1,42 @@
+
+CREATE TABLE Students (
+  empId int,
+  name varchar(15),
+  dept varchar(10)
+);
+
+
+INSERT INTO Students(empId,name,dept) VALUES (1, 'Hema', 'CSE'),
+(2, 'Lally', 'CSM'),
+(3, 'Sita', 'EEE'),
+(4, "Vani",'ECE'),
+(5,"Kavya",'CSE'),
+(6,"Honey",NuLL),
+(7,"Hasini","CSE");
+
+
+SELECT * FROM Students;
+
+Update Students set name="Vaishu" where dept="CSM";
+select * from Students;
+
+update Students set name="sneha" where dept="ECE";
+select * from students;
+
+delete from students where empId=4;
+select * from students;
+
+select * from students where dept IS Null;
+
+select * from students where dept IS NOT NuLL;
+
+update Students set dept="IT" where name="Sita";
+select * from students;
+
+update students set empId=92 where name="Kavya";
+SELECT * from Students;
+
+
+
+
+
