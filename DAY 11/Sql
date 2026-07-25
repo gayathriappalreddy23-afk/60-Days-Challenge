@@ -1,0 +1,138 @@
+-- 1. Create Tables
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(100),
+    City VARCHAR(50),
+    JoinDate DATE
+);
+
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(100),
+    Category VARCHAR(50),
+    Price DECIMAL(10, 2)
+);
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    ProductID INT,
+    OrderDate DATE,
+    Quantity INT,
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- 2. Insert Sample Data
+INSERT INTO Customers VALUES 
+(1, 'Amit Sharma', 'Delhi', '2024-01-15'),
+(2, 'Priya Patel', 'Mumbai', '2024-02-20'),
+(3, 'Rohan Das', 'Delhi', '2024-03-05'),
+(4, 'Sneha Reddy', 'Bangalore', '2024-04-12');
+
+INSERT INTO Products VALUES 
+(101, 'Laptop', 'Electronics', 65000.00),
+(102, 'Smartphone', 'Electronics', 25000.00),
+(103, 'Desk Chair', 'Furniture', 7500.00),
+(104, 'Coffee Maker', 'Appliances', 4500.00);
+
+INSERT INTO Orders VALUES 
+(1001, 1, 101, '2025-05-10', 1),
+(1002, 2, 102, '2025-05-12', 2),
+(1003, 1, 103, '2025-05-15', 1),
+(1004, 3, 102, '2025-05-16', 1),
+(1005, 4, 104, '2025-05-20', 3);
+
+
+-- ====================================================================
+-- 1. CREATE AN ACCESS VIEW (Complex Reporting Layer)
+-- Combines tables, calculates totals, and assigns customer loyalty tiers
+-- ====================================================================
+CREATE OR REPLACE VIEW View_Customer_Order_Summary AS
+SELECT 
+    c.CustomerID,
+    c.CustomerName,
+    c.City,
+    COUNT(o.OrderID) AS TotalOrdersPlaced,
+    SUM(o.Quantity * p.Price) AS TotalAmountSpent,
+    -- Grouping customers using conditional logic
+    CASE 
+        WHEN SUM(o.Quantity * p.Price) >= 50000 THEN 'VIP Platinum'
+        WHEN SUM(o.Quantity * p.Price) >= 20000 THEN 'Gold Member'
+        ELSE 'Silver Member'
+    END AS CustomerTier
+FROM Customers c
+LEFT JOIN Orders o ON c.CustomerID = o.CustomerID
+LEFT JOIN Products p ON o.ProductID = p.ProductID
+GROUP BY c.CustomerID, c.CustomerName, c.City;
+
+
+-- ====================================================================
+-- 2. CREATE A MODIFICATION STORED PROCEDURE
+-- Safely inserts or updates records with built-in validation checks
+-- ====================================================================
+DELIMITER //
+
+CREATE PROCEDURE Process_New_Order(
+    IN p_OrderID INT,
+    IN p_CustomerID INT,
+    IN p_ProductID INT,
+    IN p_OrderDate DATE,
+    IN p_Quantity INT
+)
+PROCEDURE_LOGIC: BEGIN
+    -- Data Validation Check 1: Ensure quantity is valid
+    IF p_Quantity <= 0 THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Order rejected: Quantity must be greater than zero.';
+        LEAVE PROCEDURE_LOGIC;
+    END IF;
+
+    -- Data Validation Check 2: Check if product exists
+    IF NOT EXISTS (SELECT 1 FROM Products WHERE ProductID = p_ProductID) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Order rejected: Product ID does not exist.';
+        LEAVE PROCEDURE_LOGIC;
+    END IF;
+
+    -- If order ID already exists, modify/update it; otherwise, insert it
+    IF EXISTS (SELECT 1 FROM Orders WHERE OrderID = p_OrderID) THEN
+        UPDATE Orders 
+        SET CustomerID = p_CustomerID,
+            ProductID = p_ProductID,
+            OrderDate = p_OrderDate,
+            Quantity = p_Quantity
+        WHERE OrderID = p_OrderID;
+    ELSE
+        INSERT INTO Orders (OrderID, CustomerID, ProductID, OrderDate, Quantity)
+        VALUES (p_OrderID, p_CustomerID, p_ProductID, p_OrderDate, p_Quantity);
+    END IF;
+
+END //
+
+DELIMITER ;
+
+
+-- ====================================================================
+-- 3. CREATE AN AUTOMATIC MODIFICATION TRIGGER
+-- Automatically tracks modifications by printing an audit message
+-- ====================================================================
+CREATE TABLE Order_Audit_Log (
+    LogID INT AUTO_INCREMENT PRIMARY KEY,
+    OrderID INT,
+    ActionDescription VARCHAR(255),
+    ChangeTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+DELIMITER //
+
+CREATE TRIGGER After_Order_Insert_Or_Update
+AFTER INSERT ON Orders
+FOR EACH ROW
+BEGIN
+    INSERT INTO Order_Audit_Log (OrderID, ActionDescription)
+    VALUES (NEW.OrderID, CONCAT('New order added with quantity: ', NEW.Quantity));
+END //
+
+DELIMITER ;
+
