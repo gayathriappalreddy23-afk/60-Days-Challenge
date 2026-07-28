@@ -1,0 +1,202 @@
+import threading
+def display():
+    for i in range(5):
+        print("Hello")
+t=threading.Thread(target=display)
+print("Start the loop")
+t.start()
+t.join()
+print("Completed the loop")
+
+import threading
+import time
+
+#2
+
+def process_data(data_item):
+    print(f"Thread {threading.current_thread().name} is processing: {data_item}")
+    time.sleep(0.5) 
+
+items = ["Data_A", "Data_B", "Data_C", "Data_D"]
+threads = []
+for item in items:
+    t = threading.Thread(target=process_data, args=(item,))
+    threads.append(t)
+    t.start()
+for t in threads:
+    t.join()
+
+print("All data processed safely.")
+
+#3
+from multiprocessing import Process
+def work():
+    print("Process Working...")
+p=Process(target=work)
+p.start()
+p.join()
+
+#4
+import threading
+lock=threading.Lock()
+count=0
+def Increment():
+    global count
+    with lock:
+        count+=1
+t=threading.Thread(target=Increment)
+t.start()
+t.join()
+print("Final No.of Locks: ",count)
+
+# 5
+import threading
+def even_num():
+    for i in range(1,20):
+        if i%2==0:
+            print(i,end=" ")
+t=threading.Thread(target=even_num)
+t.start()
+t.join()
+
+import threading
+def parallel_num():
+    for i in range(1,6):
+        print(i,end=" ")
+t=threading.Thread(target=parallel_num)
+t.start()
+t.join()
+#6
+import threading
+def display(s):
+    print("The String is: ",s)
+t=threading.Thread(target=display,args=("Welcome",))
+th = threading.Thread(target=display, args=("Hello World",))
+
+t.start()
+th.start()
+
+t.join()
+th.join()
+
+#7
+from multiprocessing import Process
+def display():
+    print("Hello Process....")
+p=Process(target=display)
+p.start()
+p.join()
+
+#8
+from multiprocessing import Process
+def print_the_user_data(ch):
+    print("The process is: ",ch)
+p=Process(target=print_the_user_data("Data1"))
+p2 = Process(target=print_the_user_data, args=("Data2",))
+
+p.start()
+p2.start()
+
+p.join()
+p2.join()
+
+#9
+import threading
+lock=threading.Lock()
+count=5
+def Decrement():
+    global count
+    with lock:
+        count-=1
+l=threading.Thread(target=Decrement)
+l.start()
+l.join()
+print("Finally completed Count value is : ",count)
+#Assignment
+import threading
+
+def print_user_data(text):
+    print(text)
+
+t1 = threading.Thread(target=print_user_data,
+                      args=("Downloading File 1...",))
+
+t2 = threading.Thread(target=print_user_data,
+                      args=("Downloading File 2...",))
+
+t3 = threading.Thread(target=print_user_data,
+                      args=("Downloading File 3...",))
+
+t1.start()
+t2.start()
+t3.start()
+
+t1.join()
+t2.join()
+t3.join()
+
+print("All downloads completed.")
+
+
+import threading
+import time
+
+def task_alpha(duration):
+    print(f"[Alpha Thread] Running for {duration} seconds...")
+    time.sleep(duration)
+    print("[Alpha Thread] Task complete.")
+
+def task_beta(msg):
+    print(f"[Beta Thread] Processing custom system message: {msg}")
+    time.sleep(0.3)
+    print("[Beta Thread] Logic fully executed.")
+
+# Instantiating threads with cleanly named targets and specific arguments
+worker_one = threading.Thread(target=task_alpha, args=(0.8,))
+worker_two = threading.Thread(target=task_beta, args=("System_Initialized_Successfully",))
+
+print("\n--- Starting Thread Batch #11 ---")
+worker_one.start()
+worker_two.start()
+
+# Syncing back to main execution path
+worker_one.join()
+worker_two.join()
+print("--- Batch #11 Successfully Completed ---\n")
+
+
+
+#output :
+#Start the loop
+# Hello
+# Hello
+# Hello
+# Hello
+# Hello
+# Completed the loop
+# Thread Thread-2 (process_data) is processing: Data_A
+# Thread Thread-3 (process_data) is processing: Data_B
+# Thread Thread-4 (process_data) is processing: Data_C
+# Thread Thread-5 (process_data) is processing: Data_D
+# All data processed safely.
+# Process Working...
+# Final No.of Locks:  1
+# 2 4 6 8 10 12 14 16 18 1 2 3 4 5 The String is:  Welcome
+# The String is:  Hello World
+# Hello Process....
+# The process is:  Data1
+# The process is:  Data2
+# Finally completed Count value is :  4
+# Downloading File 1...
+# Downloading File 2...
+# Downloading File 3...
+# All downloads completed.
+
+# --- Starting Thread Batch #11 ---
+# [Alpha Thread] Running for 0.8 seconds...
+# [Beta Thread] Processing custom system message: System_Initialized_Successfully
+# [Beta Thread] Logic fully executed.
+# [Alpha Thread] Task complete.
+# --- Batch #11 Successfully Completed ---
+
+# # === Code Execution Successful ===
