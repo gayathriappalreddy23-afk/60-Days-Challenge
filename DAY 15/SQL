@@ -1,0 +1,160 @@
+
+create table Students(
+  Empid int Primary key,
+  Name varchar(20) NOT NULL,
+  Branch varchar(10) default "CSE",
+  Email varchar(30) UNIQUE
+);
+
+insert into Students(empid,name,branch,email) 
+values (1,"Indu","CSE","indu@gmail.com"),
+(2,"Siri","CSM","Siri@gmail.com"),
+(3,"Hema","EEE","hema@gmail.com");
+
+select * from Students;
+
+select Name,Branch from Students;
+
+Alter table students add phone varchar(15);
+
+select * from students;
+
+CREATE TABLE employees(
+    Id INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) UNIQUE,
+    Department VARCHAR(50) DEFAULT 'IT',
+    Salary INT
+);
+
+insert into employees values
+(101,"Harshi","Harshi@gmail.com","CSM",50000),
+(102,"Keerthi","Keerthi@gmail.com","CSE",9000),
+(103,"kavya","Kavya@gmail.com","EEE",80000),
+(104,"Himaja","himaja@gmail.com","ECE",1000);
+
+select * from employees;
+insert into employees(Id,Name,Email,Salary) values(105,"Vandana","Vandana@gmail.com",90000);
+select Name,Department from employees;
+
+Alter Table employees add Phone varchar(10) default "1234567892";
+select Name,Phone from employees;
+
+Alter table employees add city varchar(30) default "Tirupati";
+select Id, city from employees;
+
+update employees set salary=60000 where id=104;
+select Id,Salary from employees;
+
+delete from employees where salary=80000;
+select Name, Salary from employees;
+
+select * from employees;
+
+select Name from employees;
+
+Truncate table employees;
+select * from employees;
+
+Drop table employees;
+
+
+CREATE TABLE EMPLOYEE (
+  EmpId int,
+  name varchar(15),
+  dept varchar(10)
+);
+
+
+INSERT INTO EMPLOYEE(empId,name,dept) VALUES (1, 'Clark', 'Sales');
+INSERT INTO EMPLOYEE(empId,name,dept) VALUES (2, 'Dave', 'Accounting');
+INSERT INTO EMPLOYEE(empId,name,dept) VALUES (3, 'Ava', 'Sales');
+
+SELECT * FROM EMPLOYEE WHERE dept = 'Sales';
+Drop table employee;
+
+--output
+Empid       Name                 Branch     Email                         
+----------- -------------------- ---------- ------------------------------
+          1 Indu                 CSE        indu@gmail.com                
+          2 Siri                 CSM        Siri@gmail.com                
+          3 Hema                 EEE        hema@gmail.com                
+Name                 Branch    
+-------------------- ----------
+Indu                 CSE       
+Siri                 CSM       
+Hema                 EEE       
+Empid       Name                 Branch     Email                          phone          
+----------- -------------------- ---------- ------------------------------ ---------------
+          1 Indu                 CSE        indu@gmail.com                 NULL           
+          2 Siri                 CSM        Siri@gmail.com                 NULL           
+          3 Hema                 EEE        hema@gmail.com                 NULL           
+Id          Name                                                                                                 Email                                                                                                Department                                         Salary     
+----------- ---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- -------------------------------------------------- -----------
+        101 Harshi                                                                                               Harshi@gmail.com                                                                                     CSM                                                      50000
+        102 Keerthi                                                                                              Keerthi@gmail.com                                                                                    CSE                                                       9000
+        103 kavya                                                                                                Kavya@gmail.com                                                                                      EEE                                                      80000
+        104 Himaja                                                                                               himaja@gmail.com                                                                                     ECE                                                       1000
+Name                                                                                                 Department                                        
+---------------------------------------------------------------------------------------------------- --------------------------------------------------
+Harshi                                                                                               CSM                                               
+Keerthi                                                                                              CSE                                               
+kavya                                                                                                EEE                                               
+Himaja                                                                                               ECE                                               
+Vandana                                                                                              IT                                                
+Name                                                                                                 Phone     
+---------------------------------------------------------------------------------------------------- ----------
+Harshi                                                                                               NULL      
+Keerthi                                                                                              NULL      
+kavya                                                                                                NULL      
+Himaja                                                                                               NULL      
+Vandana                                                                                              NULL      
+Id          city                          
+----------- ------------------------------
+        101 NULL                          
+        102 NULL                          
+        103 NULL                          
+        104 NULL                          
+        105 NULL                          
+Id          Salary     
+----------- -----------
+        101       50000
+        102        9000
+        103       80000
+        104       60000
+        105       90000
+Name                                                                                                 Salary     
+---------------------------------------------------------------------------------------------------- -----------
+Harshi                                                                                                     50000
+Keerthi                                                                                                     9000
+Himaja                                                                                                     60000
+Vandana                                                                                                    90000
+Id          Name                                                                                                 Email                                                                                                Department                                         Salary      Phone      city                          
+----------- ---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- -------------------------------------------------- ----------- ---------- ------------------------------
+        101 Harshi                                                                                               Harshi@gmail.com                                                                                     CSM                                                      50000 NULL       NULL                          
+        102 Keerthi                                                                                              Keerthi@gmail.com                                                                                    CSE                                                       9000 NULL       NULL                          
+        104 Himaja                                                                                               himaja@gmail.com                                                                                     ECE                                                      60000 NULL       NULL                          
+        105 Vandana                                                                                              Vandana@gmail.com                                                                                    IT                                                       90000 NULL       NULL                          
+Name                                                                                                
+----------------------------------------------------------------------------------------------------
+Harshi                                                                                              
+Keerthi                                                                                             
+Himaja                                                                                              
+Vandana                                                                                             
+Id          Name                                                                                                 Email                                                                                                Department                                         Salary      Phone      city                          
+----------- ---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- -------------------------------------------------- ----------- ---------- ------------------------------
+EmpId       name            dept      
+----------- --------------- ----------
+          1 Clark           Sales     
+          3 Ava             Sales     
+Ready
+
+
+
+
+
+
+
+
+
+
